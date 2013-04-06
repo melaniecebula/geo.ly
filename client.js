@@ -27,6 +27,6 @@ function makeRoomId() {
 }
 
 function updateLocation(location) {
-    con.send(JSON.stringify({type: "location", location: }))  //how to access client location?
+    con.send(JSON.stringify({type: "location", location: location}))  
 }
 
