@@ -3,51 +3,44 @@ var server = new ws.Server({port: 8080})
 
 var rooms = {}
 
-server.on('connection', function(con){
+server.on('connection', function(con) {
   console.log("Hello world!");
-  var id = makeid();
-  con.send(id);
-  con.on("message", function(message){
+  //var id = makeid();
+  //con.send(id);
+  con.on("message", function(message) {
     var stringMessage = message;
     message=JSON.parse(message);
     console.log(message.type);
-    if (message.type == 'join'){
+    if (message.type == 'join') {
       joinRoom(message, con);
     }
-    else if (message.type =='location'){
-      sendLocation(message);
+    else if (message.type =='location') {
+      sendLocation(message, con);
     }
     else {
-      con.send('You fucked up somewhere.');
+      con.send(JSON.stringify('You fucked up somewhere.'));
     }
   })
 })
 
-function makeid(){
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for( var i=0; i < 5; i++ ){
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-
-    return text;
-}
-
-function joinRoom(message, con){
-  if (rooms[message.roomId] == undefined){
+function joinRoom(message, con) {
+  if (rooms[message.roomId] == undefined) {
     rooms[message.roomId] = [];
   }
   rooms[message.roomId].push(con);
   con.room = rooms[message.roomId];
+  con.host=message.host;
   console.log("join success.");
+  console.log("Is the user a host?: " + con.host);
 }
 
-function sendLocation(message){
-  for (var i = 0; i < con.room.length; i++){
-    if (con.room[i]==con){
+//Function for broadcasting location to other clients. message includes location
+//and who is the connection that is sending its location.
+function sendLocation(message, who) {
+  for (var i = 0; i < who.room.length; i++) {
+    if (who.room[i]==who) {
       continue;
     }
-  con.room[i].send(stringMessage);
+  who.room[i].send(stringMessage, who);
   } 
 }
