@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html>
+<head>
+
+    <!-- this is the text that shows up on your tab -->
+    <title>Meet up with friends!</title>
+
+    <!-- this is the html code that loads styles -->
+    <link href="style.css" type="text/css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+      </head>
 <body>
-<p id="demo">Click the button to get your position:</p>
-<button onclick="getLocation()">Try It</button>
+  <p id="demo">Click the button to find your friend:</p>
+
+<!--<form method="post" >
+    <a><input type="submit" onclick = "getLocation()" value= "Find Your Friends!"  class="button"></a>
+</form> -->
+
+<button class = "location" onclick = "getLocation()">Find your Friends!</button>
+
 <div id="mapholder"></div>
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script>
@@ -11,49 +26,27 @@ function getLocation()
   {
   if (navigator.geolocation)
     {
-    navigator.geolocation.getCurrentPosition(showPosition,showError);
+    navigator.geolocation.watchPosition(showPosition);
     }
   else{x.innerHTML="Geolocation is not supported by this browser.";}
   }
-
-function showPosition(position)
-  {
-  lat=position.coords.latitude;
-  lon=position.coords.longitude;
-  latlon=new google.maps.LatLng(lat, lon)
-  mapholder=document.getElementById('mapholder')
+function showPosition(position){
+  lat = position.coords.latitude;
+  lon = position.coords.longitude;
+  latlon = new google.maps.LatLng(lat, lon)
+  mapholder = document.getElementById('mapholder')
   mapholder.style.height='250px';
   mapholder.style.width='500px';
 
   var myOptions={
-  center:latlon,zoom:14,
-  mapTypeId:google.maps.MapTypeId.ROADMAP,
-  mapTypeControl:false,
+  center: latlon,zoom:14,
+  mapTypeId: google.maps.MapTypeId.ROADMAP,
+  mapTypeControl: true,
   navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
   };
   var map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
   var marker=new google.maps.Marker({position:latlon,map:map,title:"You are here!"});
-  }
-
-function showError(error)
-  {
-  switch(error.code) 
-    {
-    case error.PERMISSION_DENIED:
-      x.innerHTML="User denied the request for Geolocation."
-      break;
-    case error.POSITION_UNAVAILABLE:
-      x.innerHTML="Location information is unavailable."
-      break;
-    case error.TIMEOUT:
-      x.innerHTML="The request to get user location timed out."
-      break;
-    case error.UNKNOWN_ERROR:
-      x.innerHTML="An unknown error occurred."
-      break;
-    }
-  }
+}
 </script>
 </body>
 </html>
-
