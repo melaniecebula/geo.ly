@@ -1,6 +1,3 @@
-var ws= require('ws')
-
-
 //hardcode, put on cloud server later
 var con = new WebSocket ("ws://10.22.35.212:8080")
 
@@ -12,7 +9,7 @@ function joinRoom(roomId) {
         host = true;
     }
 
-    con.send(JSON.stringify({type: "join", roomId: roomId, host: host});
+    con.send(JSON.stringify({type: "join", roomId: roomId, host: host}));
 }
 
 function makeRoomId() {
@@ -27,6 +24,6 @@ function makeRoomId() {
 }
 
 function updateLocation(location) {
-    con.send(JSON.stringify({type: "location", location: }))  //how to access client location?
+    con.send(JSON.stringify({type: "location", location: location}))  //how to access client location?
 }
 
