@@ -6,10 +6,13 @@ var con = new WebSocket ("ws://10.22.35.212:8080")
 
 
 function joinRoom(roomId) {
+    var host = false;  //joining a room, not a host
     if (roomId == undefined) {
-        roomId = makeRoomId();
+        roomId = makeRoomId();  //creating a new room, they are a host
+        host = true;
     }
-    con.send(JSON.stringify({type: "join", roomId: roomId});
+
+    con.send(JSON.stringify({type: "join", roomId: roomId, host: host});
 }
 
 function makeRoomId() {
@@ -24,5 +27,6 @@ function makeRoomId() {
 }
 
 function updateLocation(location) {
-    con.send(JSON.stringify({type: "location", }))
+    con.send(JSON.stringify({type: "location", location: }))  //how to access client location?
 }
+
