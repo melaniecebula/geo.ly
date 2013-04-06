@@ -1,0 +1,39 @@
+p{
+	font-family: 'Noto Sans', sans-serif;
+} 
+
+.button{
+	font-family: 'Noto Sans', sans-serif;
+	position:relative;
+	float: left;
+    background: #66CCFF;
+    width: 200px;
+    height: 40px;
+    vertical-align: center;
+    border: 1px solid black;
+    transition: background .1s ease-in;
+
+}
+
+.button:active{
+	background: red;
+}
+
+
+.location{
+    font-family: 'Noto Sans', sans-serif;
+    position:relative;
+    float: left;
+    background: #66CCFF;
+    width: 200px;
+    height: 40px;
+    vertical-align: center;
+    border: 1px solid black;
+    transition: background .1s ease-in;
+
+}
+
+.location:active{
+    background: red;
+}
+
