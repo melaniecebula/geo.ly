@@ -15,12 +15,7 @@ server.on('connection', function(con){
       joinRoom(message, con);
     }
     else if (message.type =='location'){
-      for (var i = 0; i < con.room.length; i++){
-        if (con.room[i]==con){
-          continue;
-        }
-        con.room[i].send(stringMessage);
-      }
+      sendLocation(message);
     }
     else {
       con.send('You fucked up somewhere.');
@@ -40,10 +35,19 @@ function makeid(){
 }
 
 function joinRoom(message, con){
-  if (rooms[message.room_id] == undefined){
-    rooms[message.room_id] = [];
+  if (rooms[message.roomId] == undefined){
+    rooms[message.roomId] = [];
   }
-  rooms[message.room_id].push(con);
-  con.room = rooms[message.room_id];
+  rooms[message.roomId].push(con);
+  con.room = rooms[message.roomId];
   console.log("join success.");
+}
+
+function sendLocation(message){
+  for (var i = 0; i < con.room.length; i++){
+    if (con.room[i]==con){
+      continue;
+    }
+  con.room[i].send(stringMessage);
+  } 
 }
