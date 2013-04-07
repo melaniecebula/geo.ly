@@ -10,7 +10,8 @@ con.onmessage = function(message){
     if(message.type == "location"){
        // console.log(" Latitude: " + message.location[0] + ", Longitude: " + message.location[1]); 
         if (markers[message.who] == undefined){
-            markers[message.who] = [message.location[0], message.location[1]]  //[lat, lon]
+            markers[message.who] = [message.location[0], message.location[1], message.host]  //[lat, lon, host boolean]
+
         }
         else {
             markers[message.who][0]=message.location[0];
@@ -28,12 +29,12 @@ function placeMarkers(markerDict, roomMap) {
         lon = markers[clientId][1];
         //console.log("Latitude: "+lat+" Longitude: "+lon);
         latlon = new google.maps.LatLng(lat, lon);
-        if (markers[clientId][2] == undefined){
+        if (markers[clientId][3] == undefined){
             markers[clientId].push(new google.maps.Marker({position:latlon, map:roomMap, title:clientId}));
             console.log("onCreate");
         }
         else{
-            markers[clientId][2].setPosition(latlon);
+            markers[clientId][3].setPosition(latlon);
         }
     }
 
