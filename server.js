@@ -40,7 +40,7 @@ function joinRoom(message, con) {
   rooms[message.roomId].push(con);
   con.room = rooms[message.roomId];
   con.host = message.host;
-  console.log("join success.");
+  console.log(con.id+" joined "+con.room);
   console.log("Is the user a host?: " + con.host);
 }
 
@@ -49,6 +49,8 @@ function joinRoom(message, con) {
 function sendLocation(message, con) {
   for (var i = 0; i < con.room.length; i++) {
     message.who = con.id;
+
+    message.host = con.host;
   con.room[i].send(JSON.stringify(message));
   } 
 process.on('uncaughtException', function (exception) {
