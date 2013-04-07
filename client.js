@@ -1,13 +1,15 @@
 //hardcode, put on cloud server later
+var markers = {} //dictionary of clint_id keys and [lat, lon] values
 var con = new WebSocket ("ws://10.22.35.212:8080")
 
 
-con.onmessage = function(message, who){
+con.onmessage = function(message){
     var stringMessage = message.data;
     console.log(message.data);
     message =JSON.parse(message.data);
     if(message.type == "location"){
-        console.log(" Latitude: " + message.location[0] + ", Longitude: " + message.location[1]); //update map at this point
+        console.log(" Latitude: " + message.location[0] + ", Longitude: " + message.location[1]); 
+        markers[message.who] = [message.location[0], message.location[1]]  //[lat, lon]
     }
 }
 
