@@ -118,17 +118,31 @@ function joinRoom(roomId) {
     var linkcontainer = document.getElementById("linkcontainer");
     linkcontainer.innerHTML += "Send this link to your friends!</br>";
     var insert = document.createElement("a");
-    insert.setAttribute("href", "http://10.22.34.20:8000?room_id=" + roomId);
+    insert.setAttribute("onClick", "removelinks()");
+    insert.setAttribute("href", "#");
     insert.innerHTML = "http://10.22.34.20:8000?room_id=" + roomId;
     insert.setAttribute("id", "reflink");
     linkcontainer.appendChild(insert);
     document.getElementById("mytable").removeChild(document.getElementById("default"));
-    var smalltitle= document.createElement("h1");
-    smalltitle.setAttribute("id", "smalltitle");
-    smalltitle.innerHTML = "geo.ly";
-    smalltitle.style.cssText+= document.getElementById("mytable").offsetHeight+";";
-    linkcontainer.appendChild(smalltitle);
+    if (document.getElementById("mytable").offsetWidth > 540){
+        var smalltitle= document.createElement("h1");
+        smalltitle.setAttribute("id", "smalltitle");
+        smalltitle.innerHTML = "geo.ly";
+        smalltitle.style.cssText+= document.getElementById("mytable").offsetHeight+";";
+        document.getElementById("mytable").appendChild(smalltitle);
+    }
+    console.log("hello")
     con.send(JSON.stringify({type: "join", roomId: roomId, isHost: isHost}));
+}
+
+function removelinks(){
+    if (document.getElementById("mytable").offsetWidth < 540){
+        var smalltitle= document.createElement("h1");
+        smalltitle.setAttribute("id", "smalltitle");
+        smalltitle.innerHTML = "geo.ly";
+        smalltitle.style.cssText+= document.getElementById("mytable").offsetHeight+";";
+        document.getElementById("mytable").appendChild(smalltitle);
+    }
 }
 
 function makeRoomId() {
