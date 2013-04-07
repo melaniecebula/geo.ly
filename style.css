@@ -18,6 +18,18 @@ p{
     padding: 5px;
 }
 
+#compass
+{
+position: absolute;
+top: 100%;
+-ms-transform:rotate(0deg); /* Firefox */
+-moz-transform:rotate(0deg); /* Firefox */
+-webkit-transform:rotate(0deg); /* Safari and Chrome */
+-o-transform:rotate(0deg); /* Safari and Chrome */
+transform:rotate(0deg);
+}
+
+
 #mapholder{
     position: relative;
     float:center;

@@ -44,6 +44,17 @@ window.onbeforeunload=function(){
     leaveRoom(con);
 }
 
+function rotate(value)
+{
+document.getElementById('compass').style.webkitTransform="rotate(" + value + "deg)";
+document.getElementById('compass').style.msTransform="rotate(" + value + "deg)";
+document.getElementById('compass').style.MozTransform="rotate(" + value + "deg)";
+document.getElementById('compass').style.OTransform="rotate(" + value + "deg)";
+document.getElementById('compass').style.transform="rotate(" + value + "deg)";
+document.getElementById('compass').innerHTML=value + "deg";
+}
+
+
 function getHeading() {
     var hostlat = markers[host][0];
     var hostlon = markers[host][1];
@@ -63,6 +74,8 @@ function getHeading() {
     var headingInsert = document.createElement("b");
     headingInsert.innerHTML = heading;
     document.getElementById("headingcontainer").appendChild(headingInsert);
+    var compassPic = document.getElementById("compass");
+    compassPic.rotate(heading);
 }
 
 function placeMarkers(markerDict, roomMap) {
