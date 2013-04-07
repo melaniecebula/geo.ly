@@ -5,10 +5,9 @@ var con = new WebSocket ("ws://10.22.35.212:8080")
 
 con.onmessage = function(message){
     var stringMessage = message.data;
-    //console.log(message.data);
     message =JSON.parse(message.data);
+    console.log(message.type);
     if(message.type == "location"){
-       // console.log(" Latitude: " + message.location[0] + ", Longitude: " + message.location[1]); 
         if (markers[message.who] == undefined){
             markers[message.who] = [message.location[0], message.location[1], message.host]  //[lat, lon, host boolean]
         }
@@ -18,15 +17,29 @@ con.onmessage = function(message){
         }
         placeMarkers(markers, map);
     }
+    else if (message.type == "leave"){
+        console.log("onClose");
+        delete markers[message.who];
+    }
+}
+
+con.onopen = function() {
+  var room_id = getQueryStrings()['room_id']
+  if (room_id != undefined) {
+    joinRoom(room_id.substring(0, room_id.length - 1));
+    setInterval(function(){getLocation()}, 500);
+    document.removeChild(getElementById("default"));
+  } 
+}
+window.onbeforeunload=function(){
+    leaveRoom(con);
 }
 
 function placeMarkers(markerDict, roomMap) {
     if (roomMap == undefined){return}
     for (var clientId in markerDict) {
-        //console.log("connected to: "+clientId);
         lat = markers[clientId][0]
         lon = markers[clientId][1];
-        //console.log("Latitude: "+lat+" Longitude: "+lon);
         latlon = new google.maps.LatLng(lat, lon);
         if (markers[clientId][3] == undefined){
             markers[clientId].push(new google.maps.Marker({position:latlon, map:roomMap, title:clientId}));
@@ -55,9 +68,10 @@ function joinRoom(roomId) {
     var linkcontainer = document.getElementById("linkcontainer");
     var insert = document.createElement("a");
     insert.setAttribute("href", "http://10.22.35.212:8000?room_id=" + roomId);
-    insert.innerHTML="http://10.22.35.212:8000?room_id=" + roomId;
+    insert.innerHTML = "http://10.22.35.212:8000?room_id=" + roomId;
     insert.setAttribute("id", "reflink");
     linkcontainer.appendChild(insert);
+    console.log(con);
     con.send(JSON.stringify({type: "join", roomId: roomId, host: host}));
 }
 
@@ -76,6 +90,10 @@ function updateLocation(location) {
     con.send(JSON.stringify({type: "location", location: location}))  
 }
 
+function leaveRoom(){
+    con.send(JSON.stringify({type:"leave"}));
+}
+
 function getQueryStrings() { 
   var assoc  = {};
   var decode = function (s) { return decodeURIComponent(s.replace(/\+/g, " ")); };
@@ -91,9 +109,3 @@ function getQueryStrings() {
 
   return assoc; 
 } 
-var room_id=getQueryStrings()['room_id']
-if (room_id != undefined){
-  joinRoom(room_id.substring(0, room_id.length-1));
-  setInterval(function(){getLocation()}, 500);
-  document.getElementByclass("location").style.visibility="hidden";
-}

@@ -16,6 +16,9 @@ server.on('connection', function(con) {
     else if (message.type =='location') {
       sendLocation(message, con);
     }
+    else if (message.type == "leave"){
+      leaveRoom(message, con);
+    }
     else {
       con.send(JSON.stringify('You fucked up somewhere.'));
     }
@@ -44,16 +47,25 @@ function joinRoom(message, con) {
   console.log("Is the user a host?: " + con.host);
 }
 
+function leaveRoom(message, con){
+  message.who = con.id;
+  broadcast(message, con);
+  con=undefined;
+}
+
 //Function for broadcasting location to other clients. message includes location
 //and con is the connection that is sending its location.
 function sendLocation(message, con) {
-  for (var i = 0; i < con.room.length; i++) {
-    message.who = con.id;
+  message.who = con.id;
 
-    message.host = con.host;
+  message.host = con.host;
+  broadcast(message, con); 
+}
+function broadcast(message, con){
+  for (var i = 0; i < con.room.length; i++) {
   con.room[i].send(JSON.stringify(message));
-  } 
+  }
+}
 process.on('uncaughtException', function (exception) {
    // handle or ignore error
   });
-}
