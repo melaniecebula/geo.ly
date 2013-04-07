@@ -54,4 +54,7 @@ function sendLocation(message, con) {
     message.who = con.id;
   con.room[i].send(JSON.stringify(message));
   } 
+process.on('uncaughtException', function (exception) {
+   // handle or ignore error
+  });
 }

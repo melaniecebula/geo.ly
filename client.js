@@ -5,23 +5,36 @@ var con = new WebSocket ("ws://10.22.35.212:8080")
 
 con.onmessage = function(message){
     var stringMessage = message.data;
-    console.log(message.data);
+    //console.log(message.data);
     message =JSON.parse(message.data);
     if(message.type == "location"){
-        console.log(" Latitude: " + message.location[0] + ", Longitude: " + message.location[1]); 
-        markers[message.who] = [message.location[0], message.location[1]]  //[lat, lon]
+       // console.log(" Latitude: " + message.location[0] + ", Longitude: " + message.location[1]); 
+        if (markers[message.who] == undefined){
+            markers[message.who] = [message.location[0], message.location[1]]  //[lat, lon]
+        }
+        else {
+            markers[message.who][0]=message.location[0];
+            markers[message.who][1]=message.location[1];
+        }
+        placeMarkers(markers, map);
     }
 }
 
 function placeMarkers(markerDict, roomMap) {
     if (roomMap == undefined){return}
     for (var clientId in markerDict) {
-        console.log("connected to: "+clientId);
+        //console.log("connected to: "+clientId);
         lat = markers[clientId][0]
         lon = markers[clientId][1];
-        console.log("Latitude: "+lat+" Longitude: "+lon);
+        //console.log("Latitude: "+lat+" Longitude: "+lon);
         latlon = new google.maps.LatLng(lat, lon);
-        var newmark = new google.maps.Marker({position:latlon, map:roomMap, title:clientId});
+        if (markers[clientId][2] == undefined){
+            markers[clientId].push(new google.maps.Marker({position:latlon, map:roomMap, title:clientId}));
+            console.log("onCreate");
+        }
+        else{
+            markers[clientId][2].setPosition(latlon);
+        }
     }
 
 
