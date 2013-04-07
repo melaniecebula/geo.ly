@@ -13,6 +13,16 @@ con.onmessage = function(message){
     }
 }
 
+function placeMarkers(markerDict, roomMap) {
+    for (var clientId in markerDict) {
+        lat, lon = clientId[0], clientId[1];
+        latlon = new google.maps.LatLng(lat, lon);
+        var marker = new google.maps.Marker({position:latlon, map:roomMap, title:clientId})
+    }
+
+
+}
+
 function joinRoom(roomId) {
     var host = false;  //joining a room, not a host
     if (roomId == undefined) {
