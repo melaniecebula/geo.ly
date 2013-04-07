@@ -21,7 +21,7 @@ p{
 #compass
 {
 position: absolute;
-top: 100%;
+top: 85%;
 -ms-transform:rotate(0deg); /* Firefox */
 -moz-transform:rotate(0deg); /* Firefox */
 -webkit-transform:rotate(0deg); /* Safari and Chrome */

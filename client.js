@@ -1,6 +1,6 @@
 //hardcode, put on cloud server later
 var markers = {} //dictionary of clint_id keys and [lat, lon] values
-var con = new WebSocket ("ws://10.22.35.212:8080")
+var con = new WebSocket ("ws://10.22.34.20:8080")
 var secondPerson
 
 con.onmessage = function(message){
@@ -56,6 +56,9 @@ document.getElementById('compass').innerHTML=value + "deg";
 
 
 function getHeading() {
+    if(secondPerson == undefined){
+        return;
+    }
     var hostlat = markers[host][0];
     var hostlon = markers[host][1];
     var hostlatlon = new google.maps.LatLng(hostlat,hostlon);
@@ -71,11 +74,7 @@ function getHeading() {
         var latlon1 = new google.maps.LatLng(lat1, lon1);
         heading = google.maps.geometry.spherical.computeHeading(latlon1, hostlatlon);
     }
-    var headingInsert = document.createElement("b");
-    headingInsert.innerHTML = heading;
-    document.getElementById("headingcontainer").appendChild(headingInsert);
-    var compassPic = document.getElementById("compass");
-    compassPic.rotate(heading);
+    rotate(heading);
 }
 
 function placeMarkers(markerDict, roomMap) {
@@ -112,8 +111,8 @@ function joinRoom(roomId) {
     var linkcontainer = document.getElementById("linkcontainer");
     linkcontainer.innerHTML += "Send this link to your friends!</br>";
     var insert = document.createElement("a");
-    insert.setAttribute("href", "http://10.22.35.212:8000?room_id=" + roomId);
-    insert.innerHTML = "http://10.22.35.212:8000?room_id=" + roomId;
+    insert.setAttribute("href", "http://10.22.34.20:8000?room_id=" + roomId);
+    insert.innerHTML = "http://10.22.34.20:8000?room_id=" + roomId;
     insert.setAttribute("id", "reflink");
     linkcontainer.appendChild(insert);
     document.getElementById("mytable").removeChild(document.getElementById("default"));
@@ -138,6 +137,7 @@ function makeRoomId() {
 
 function updateLocation(location) {
     con.send(JSON.stringify({type: "location", location: location}))  
+    getHeading();
 }
 
 function leaveRoom(){

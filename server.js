@@ -9,6 +9,7 @@ server.on('connection', function(con) {
   con.on("message", function(message) {
     var stringMessage = message;
     message=JSON.parse(message);
+    console.log(message.type);
     if (message.type == 'join') {
       joinRoom(message, con);
     }
