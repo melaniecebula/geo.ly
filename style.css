@@ -61,4 +61,5 @@ a{
     color: #4886BD;
     font-family: 'Noto Sans', sans-serif;
     text-decoration: none;
+    z-index: 1;
 }

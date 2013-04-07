@@ -9,7 +9,6 @@ server.on('connection', function(con) {
   con.on("message", function(message) {
     var stringMessage = message;
     message=JSON.parse(message);
-    console.log(message.type);
     if (message.type == 'join') {
       joinRoom(message, con);
     }
@@ -39,16 +38,20 @@ function makeId() {
 function joinRoom(message, con) {
   if (rooms[message.roomId] == undefined) {
     rooms[message.roomId] = [];
+    var secondPerson;
+    var set = false;
   }
   rooms[message.roomId].push(con);
   con.room = rooms[message.roomId];
-  con.host = message.host;
-  if(secondPerson == undefined){
-    secondPerson = con.id;
-  }
+  con.isHost = message.isHost;
+  if(!con.isHost && !set){
+        set = true;
+        secondPerson = con.id;
+        console.log(secondPerson);
+        emitSecond(secondPerson, con);}
   console.log(con.id+" joined "+con.room);
-  con.send(JSON.stringify({type: "id", id: con.id}));
-  console.log("Is the user a host?: " + con.host);
+  con.send(JSON.stringify({type: "id", id: con.id, second: secondPerson}));
+  console.log("Is the user a host?: " + con.isHost);
 }
 
 function leaveRoom(message, con){
@@ -62,13 +65,20 @@ function leaveRoom(message, con){
 function sendLocation(message, con) {
   message.who = con.id;
 
-  message.host = con.host;
+  message.isHost = con.isHost;
+  if (con.isHost){
+    message.host=con.id;
+  }
   broadcast(message, con); 
 }
 function broadcast(message, con){
   for (var i = 0; i < con.room.length; i++) {
   con.room[i].send(JSON.stringify(message));
   }
+}
+
+function emitSecond(second, con){
+  broadcast({type: 'second', other: second}, con);
 }
 process.on('uncaughtException', function (exception) {
    // handle or ignore error

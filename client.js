@@ -1,14 +1,17 @@
 //hardcode, put on cloud server later
 var markers = {} //dictionary of clint_id keys and [lat, lon] values
 var con = new WebSocket ("ws://10.22.35.212:8080")
-
+var secondPerson
 
 con.onmessage = function(message){
     var stringMessage = message.data;
     message =JSON.parse(message.data);
     if(message.type == "location"){
+        if(message.isHost){
+            host=message.host;
+        }
         if (markers[message.who] == undefined){
-            markers[message.who] = [message.location[0], message.location[1], message.host]  //[lat, lon, host boolean]
+            markers[message.who] = [message.location[0], message.location[1], message.isHost]  //[lat, lon, host boolean]
         }
         else {
             markers[message.who][0] = message.location[0];
@@ -19,6 +22,10 @@ con.onmessage = function(message){
     else if (message.type == "id"){
         console.log(message.id);
         con.id = message.id;
+    }
+    else if (message.type == 'second'){
+        console.log(message.other);
+        secondPerson=message.other;
     }
     else if (message.type == "leave"){
         console.log("onClose");
@@ -31,7 +38,6 @@ con.onopen = function() {
   if (room_id != undefined) {
     joinRoom(room_id.substring(0, room_id.length - 1));
     setInterval(function(){getLocation()}, 500);
-    document.getElementById("mytable").removeChild(document.getElementById("default"));
   } 
 }
 window.onbeforeunload=function(){
@@ -56,7 +62,7 @@ function getHeading() {
     }
     var headingInsert = document.createElement("b");
     headingInsert.innerHTML = heading;
-    headingcontainer.appendChild(headingInsert);
+    document.getElementById("headingcontainer").appendChild(headingInsert);
 }
 
 function placeMarkers(markerDict, roomMap) {
@@ -88,7 +94,6 @@ function joinRoom(roomId) {
     if (roomId == undefined) {
         roomId = makeRoomId();  //creating a new room, they are a host
         isHost = true;
-        host = con.id;
     }
 
     var linkcontainer = document.getElementById("linkcontainer");
@@ -104,7 +109,7 @@ function joinRoom(roomId) {
     smalltitle.innerHTML = "geo.ly";
     smalltitle.style.cssText+= document.getElementById("mytable").offsetHeight+";";
     linkcontainer.appendChild(smalltitle);
-    con.send(JSON.stringify({type: "join", roomId: roomId, host: host}));
+    con.send(JSON.stringify({type: "join", roomId: roomId, isHost: isHost}));
 }
 
 function makeRoomId() {
