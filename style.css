@@ -2,35 +2,36 @@ p{
 	font-family: 'Noto Sans', sans-serif;
 } 
 
-.button{
-	font-family: 'Noto Sans', sans-serif;
-	position:relative;
-	float: left;
-    background: #66CCFF;
-    width: 200px;
-    height: 40px;
-    vertical-align: center;
-    border: 1px solid black;
-    transition: background .1s ease-in;
-
+#mytable{
+    width: 50%;
+    height: 100%;
+    background: #B2E6FF;
+    border: 1px solid white;
+    border-radius: 23px;
 }
 
-.button:active{
-	background: red;
+#mapholder{
+    margin: 20px;
+    position: relative;
+    float:center;
 }
-
 
 .location{
     font-family: 'Noto Sans', sans-serif;
     position:relative;
-    float: left;
+    float: center;
     background: #66CCFF;
     width: 200px;
     height: 40px;
     vertical-align: center;
     border: 1px solid black;
-    transition: background .1s ease-in;
+    transition: background .08s ease-in;
+    margin: 40px;
 
+}
+
+.location:hover{
+    background: #29A3CC;
 }
 
 .location:active{
