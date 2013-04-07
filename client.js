@@ -69,6 +69,7 @@ function joinRoom(roomId) {
         host = true;
     }
     var linkcontainer = document.getElementById("linkcontainer");
+    linkcontainer.innerHTML += "Send this link to your friends!</br>";
     var insert = document.createElement("a");
     insert.setAttribute("href", "http://10.22.35.212:8000?room_id=" + roomId);
     insert.innerHTML = "http://10.22.35.212:8000?room_id=" + roomId;
