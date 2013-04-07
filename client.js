@@ -14,10 +14,14 @@ con.onmessage = function(message){
 }
 
 function placeMarkers(markerDict, roomMap) {
+    if (roomMap == undefined){return}
     for (var clientId in markerDict) {
-        lat, lon = clientId[0], clientId[1];
+        console.log("connected to: "+clientId);
+        lat = markers[clientId][0]
+        lon = markers[clientId][1];
+        console.log("Latitude: "+lat+" Longitude: "+lon);
         latlon = new google.maps.LatLng(lat, lon);
-        var marker = new google.maps.Marker({position:latlon, map:roomMap, title:clientId})
+        var newmark = new google.maps.Marker({position:latlon, map:roomMap, title:clientId});
     }
 
 

@@ -39,7 +39,7 @@ function joinRoom(message, con) {
   }
   rooms[message.roomId].push(con);
   con.room = rooms[message.roomId];
-  con.host=message.host;
+  con.host = message.host;
   console.log("join success.");
   console.log("Is the user a host?: " + con.host);
 }
@@ -51,7 +51,7 @@ function sendLocation(message, con) {
     if (con.room[i] == con) {
       continue;
     }
-    message[who] = con.id;
+    message.who = con.id;
   con.room[i].send(JSON.stringify(message));
   } 
 }
