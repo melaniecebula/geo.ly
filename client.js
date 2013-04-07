@@ -10,7 +10,12 @@ con.onmessage = function(message){
     if(message.type == "location"){
        // console.log(" Latitude: " + message.location[0] + ", Longitude: " + message.location[1]); 
         if (markers[message.who] == undefined){
+<<<<<<< HEAD
             markers[message.who] = [message.location[0], message.location[1], message.host]  //[lat, lon]
+=======
+            markers[message.who] = [message.location[0], message.location[1], message.host]  //[lat, lon, host boolean]
+
+>>>>>>> b5bd8941fd0d2613d1f834713ba1cd64ebb22e2e
         }
         else {
             markers[message.who][0]=message.location[0];
