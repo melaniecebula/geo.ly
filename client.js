@@ -1,6 +1,6 @@
 //hardcode, put on cloud server later
 var markers = {} //dictionary of clint_id keys and [lat, lon] values
-var con = new WebSocket ("ws://10.22.35.212:8080")
+var con = new WebSocket ("ws://10.22.35.70:8080")
 
 
 con.onmessage = function(message){
@@ -31,7 +31,7 @@ function placeMarkers(markerDict, roomMap) {
         if (markers[clientId][3] == undefined){
             markers[clientId].push(new google.maps.Marker({position:latlon, map:roomMap, title:clientId}));
             if (markers[clientId][2]){
-                markers[clientId][3].setIcon('http://google-maps-icons.googlecode.com/files/steakhouse2.png');
+                markers[clientId][3].setIcon('http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-db0d36/shapecolor-dark/shadow-1/border-white/symbolstyle-white/symbolshadowstyle-no/gradient-no/hotel_0star.png');
             }
             console.log("onCreate");
         }
