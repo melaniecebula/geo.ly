@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <html>
 <head>
 
@@ -44,8 +45,8 @@ function showPosition(position){
   lon = position.coords.longitude;
   latlon = new google.maps.LatLng(lat, lon);
   mapholder = document.getElementById('mapholder')
-  mapholder.style.height ='500px';
-  mapholder.style.width ='500px';
+  mapholder.style.height = window.innerHeight-document.getElementById("mytable").offsetHeight-10+"px";
+  mapholder.style.width = window.innerWidth;
 
   var myOptions = {
   center: latlon,zoom:14,
