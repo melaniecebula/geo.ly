@@ -38,6 +38,27 @@ window.onbeforeunload=function(){
     leaveRoom(con);
 }
 
+function getHeading() {
+    var hostlat = markers[host][0];
+    var hostlon = markers[host][1];
+    var hostlatlon = new google.maps.LatLng(hostlat,hostlon);
+    if(con.id == host){
+        var lat2 = markers[secondPerson][0];
+        var lon2 = markers[secondPerson][1];
+        var latlon2 = new google.maps.LatLng(lat2,lon2);
+        heading = google.maps.geometry.spherical.computeHeading(hostlatlon, latlon2);
+    }
+    else{
+        var lat1 = markers[con.id][0];
+        var lon1 = markers[con.id][1];
+        var latlon1 = new google.maps.LatLng(lat1, lon1);
+        heading = google.maps.geometry.spherical.computeHeading(latlon1, hostlatlon);
+    }
+    var headingInsert = document.createElement("b");
+    headingInsert.innerHTML = heading;
+    headingcontainer.appendChild(headingInsert);
+}
+
 function placeMarkers(markerDict, roomMap) {
     if (roomMap == undefined){return}
     for (var clientId in markerDict) {
@@ -63,11 +84,13 @@ function placeMarkers(markerDict, roomMap) {
 }
 
 function joinRoom(roomId) {
-    var host = false;  //joining a room, not a host
+    var isHost = false;  //joining a room, not a host
     if (roomId == undefined) {
         roomId = makeRoomId();  //creating a new room, they are a host
-        host = true;
+        isHost = true;
+        host = con.id;
     }
+
     var linkcontainer = document.getElementById("linkcontainer");
     var insert = document.createElement("a");
     insert.setAttribute("href", "http://10.22.35.212:8000?room_id=" + roomId);

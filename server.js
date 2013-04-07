@@ -43,6 +43,9 @@ function joinRoom(message, con) {
   rooms[message.roomId].push(con);
   con.room = rooms[message.roomId];
   con.host = message.host;
+  if(secondPerson == undefined){
+    secondPerson = con.id;
+  }
   console.log(con.id+" joined "+con.room);
   con.send(JSON.stringify({type: "id", id: con.id}));
   console.log("Is the user a host?: " + con.host);
