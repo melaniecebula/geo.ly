@@ -48,9 +48,6 @@ function joinRoom(message, con) {
 //and con is the connection that is sending its location.
 function sendLocation(message, con) {
   for (var i = 0; i < con.room.length; i++) {
-    if (con.room[i] == con) {
-      continue;
-    }
     message.who = con.id;
   con.room[i].send(JSON.stringify(message));
   } 
