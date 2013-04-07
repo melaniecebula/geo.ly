@@ -124,7 +124,7 @@ function joinRoom(roomId) {
     insert.setAttribute("id", "reflink");
     linkcontainer.appendChild(insert);
     document.getElementById("mytable").removeChild(document.getElementById("default"));
-    if (document.getElementById("mytable").offsetWidth != 540){
+    if (document.getElementById("mytable").offsetWidth < 540){
         var smalltitle= document.createElement("h1");
         smalltitle.setAttribute("id", "smalltitle");
         smalltitle.innerHTML = "geo.ly";
