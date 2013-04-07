@@ -42,14 +42,21 @@ p{
 }
 
 .location:active{
-    background: red;
+    background: #CC2929;
 }
 
-#geo{
+#geo, #smalltitle{
     font-family: 'Lobster';
     color: white;
 }
 
+#smalltitle{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 5px;
+
+}
 a{
     color: #4886BD;
     font-family: 'Noto Sans', sans-serif;

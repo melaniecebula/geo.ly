@@ -75,6 +75,12 @@ function joinRoom(roomId) {
     insert.innerHTML = "http://10.22.35.212:8000?room_id=" + roomId;
     insert.setAttribute("id", "reflink");
     linkcontainer.appendChild(insert);
+    document.getElementById("mytable").removeChild(document.getElementById("default"));
+    var smalltitle= document.createElement("h1");
+    smalltitle.setAttribute("id", "smalltitle");
+    smalltitle.innerHTML = "geo.ly";
+    smalltitle.style.cssText+= document.getElementById("mytable").offsetHeight+";";
+    linkcontainer.appendChild(smalltitle);
     con.send(JSON.stringify({type: "join", roomId: roomId, host: host}));
 }
 
