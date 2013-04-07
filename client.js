@@ -6,7 +6,6 @@ var con = new WebSocket ("ws://10.22.35.212:8080")
 con.onmessage = function(message){
     var stringMessage = message.data;
     message =JSON.parse(message.data);
-    console.log(message.type);
     if(message.type == "location"){
         if (markers[message.who] == undefined){
             markers[message.who] = [message.location[0], message.location[1], message.host]  //[lat, lon, host boolean]
@@ -16,6 +15,10 @@ con.onmessage = function(message){
             markers[message.who][1] = message.location[1];
         }
         placeMarkers(markers, map);
+    }
+    else if (message.type == "id"){
+        console.log(message.id);
+        con.id = message.id;
     }
     else if (message.type == "leave"){
         console.log("onClose");
@@ -28,7 +31,7 @@ con.onopen = function() {
   if (room_id != undefined) {
     joinRoom(room_id.substring(0, room_id.length - 1));
     setInterval(function(){getLocation()}, 500);
-    document.removeChild(getElementById("default"));
+    document.getElementById("mytable").removeChild(document.getElementById("default"));
   } 
 }
 window.onbeforeunload=function(){
@@ -71,7 +74,6 @@ function joinRoom(roomId) {
     insert.innerHTML = "http://10.22.35.212:8000?room_id=" + roomId;
     insert.setAttribute("id", "reflink");
     linkcontainer.appendChild(insert);
-    console.log(con);
     con.send(JSON.stringify({type: "join", roomId: roomId, host: host}));
 }
 
