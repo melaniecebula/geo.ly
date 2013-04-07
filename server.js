@@ -5,8 +5,7 @@ var rooms = {}
 
 server.on('connection', function(con) {
   console.log("Hello world!");
-  //var id = makeid();
-  //con.send(id);
+  con.id = makeId();
   con.on("message", function(message) {
     var stringMessage = message;
     message=JSON.parse(message);
@@ -15,13 +14,24 @@ server.on('connection', function(con) {
       joinRoom(message, con);
     }
     else if (message.type =='location') {
-      sendLocation(stringMessage, con);
+      sendLocation(message, con);
     }
     else {
       con.send(JSON.stringify('You fucked up somewhere.'));
     }
   })
 })
+
+function makeId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ ){
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
+}
 
 function joinRoom(message, con) {
   if (rooms[message.roomId] == undefined) {
@@ -38,9 +48,10 @@ function joinRoom(message, con) {
 //and con is the connection that is sending its location.
 function sendLocation(message, con) {
   for (var i = 0; i < con.room.length; i++) {
-    if (con.room[i]==con) {
+    if (con.room[i] == con) {
       continue;
     }
-  con.room[i].send(message);
+    message[who] = con.id;
+  con.room[i].send(JSON.stringify(message));
   } 
 }
