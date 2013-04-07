@@ -3,22 +3,24 @@
 <head>
 
     <!-- this is the text that shows up on your tab -->
-    <title>Meet up with friends!</title>
+    <title>Find yo friends!</title>
 
     <!-- this is the html code that loads styles -->
     <link href="style.css" type="text/css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
       </head>
 <body>
-  <p id="demo">Click the button to find your friend:</p>
+  <div align="center">
+  <div class = "table" id = "mytable">
+  <p id="demo">Click the button to find your friends:</p>
 
 <!--<form method="post" >
     <a><input type="submit" onclick = "getLocation()" value= "Find Your Friends!"  class="button"></a>
 </form> -->
 
-<button class = "location" onclick = "var locate=setInterval(function(){getLocation()}, 500)">Find your Friends!</button>
+<button class = "location" onclick = "var locate=setInterval(function(){getLocation()}, 500)"><span>Find your Friends!</span></button>
 
-<div id="mapholder"></div>
+
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="client.js"></script>
 <script>
@@ -37,8 +39,8 @@ function showPosition(position){
   lon = position.coords.longitude;
   latlon = new google.maps.LatLng(lat, lon);
   mapholder = document.getElementById('mapholder')
-  mapholder.style.height='250px';
-  mapholder.style.width='500px';
+  mapholder.style.height='100%';
+  mapholder.style.width='100%';
 
   var myOptions = {
   center: latlon,zoom:14,
@@ -53,5 +55,8 @@ function showPosition(position){
   updateLocation([lat, lon]);
 }
 </script>
+</div>
+<div id="mapholder"></div>
+</div>
 </body>
 </html>
