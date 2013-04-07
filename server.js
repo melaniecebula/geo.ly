@@ -57,6 +57,9 @@ function joinRoom(message, con) {
 
 function leaveRoom(message, con){
   message.who = con.id;
+  if (message.who == secondPerson){
+    secondPerson = undefined;
+  }
   broadcast(message, con);
   con=undefined;
 }

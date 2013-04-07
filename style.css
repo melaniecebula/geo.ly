@@ -22,6 +22,8 @@ p{
 {
 position: absolute;
 top: 85%;
+left: 50%;
+margin-left: -40px;
 -ms-transform:rotate(0deg); /* Firefox */
 -moz-transform:rotate(0deg); /* Firefox */
 -webkit-transform:rotate(0deg); /* Safari and Chrome */

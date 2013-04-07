@@ -2,6 +2,7 @@
 var markers = {} //dictionary of clint_id keys and [lat, lon] values
 var con = new WebSocket ("ws://10.22.34.20:8080")
 var secondPerson
+var theHead;
 
 con.onmessage = function(message){
     var stringMessage = message.data;
@@ -29,6 +30,9 @@ con.onmessage = function(message){
     }
     else if (message.type == "leave"){
         console.log("onClose");
+        if (message.who === secondPerson){
+            secondPerson = undefined;
+        }
         delete markers[message.who];
     }
 }
@@ -73,6 +77,9 @@ function getHeading() {
         var lon1 = markers[con.id][1];
         var latlon1 = new google.maps.LatLng(lat1, lon1);
         heading = google.maps.geometry.spherical.computeHeading(latlon1, hostlatlon);
+    }
+    if(theHead != undefined){
+        heading-=theHead;
     }
     rotate(heading);
 }
@@ -143,6 +150,10 @@ function updateLocation(location) {
 function leaveRoom(){
     con.send(JSON.stringify({type:"leave"}));
 }
+
+window.addEventListener('deviceorientation', function(e) {
+theHead = e.webkitCompassHeading;
+}, false);
 
 function getQueryStrings() { 
   var assoc  = {};
