@@ -2,10 +2,12 @@ body{
 	font-family: 'Noto Sans', sans-serif;
     width:100%;
     margin: 0;
+    color: white;
 } 
 
 p{
     margin: 5px;
+    color: white;
 }
 #mytable{
     width: 100%;
@@ -26,10 +28,11 @@ p{
     position:relative;
     float: center;
     background: #66CCFF;
+    color: white;
     width: 200px;
     height: 40px;
     vertical-align: center;
-    border: 1px solid black;
+    border: 0px;
     transition: background .08s ease-in;
 
 }
@@ -42,3 +45,13 @@ p{
     background: red;
 }
 
+#geo{
+    font-family: 'Lobster';
+    color: white;
+}
+
+a{
+    color: #4886BD;
+    font-family: 'Noto Sans', sans-serif;
+    text-decoration: none;
+}
