@@ -12,35 +12,39 @@
 <body>
   <div align="center">
   <div class = "table" id = "mytable">
+    <div id = "linkcontainer">
+
+    </div>
+    
   <p id="demo">Click the button to find your friends:</p>
 
 <!--<form method="post" >
     <a><input type="submit" onclick = "getLocation()" value= "Find Your Friends!"  class="button"></a>
 </form> -->
 
-<button class = "location" onclick = "var locate=setInterval(function(){getLocation()}, 500)"><span>Find your Friends!</span></button>
+<button class = "location" onclick = "joinRoom(); var locate = setInterval(function(){getLocation()}, 500)"><span>Create!</span></button>
 
 
-<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script src="client.js"></script>
+<script src = "http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src = "client.js"></script>
 <script>
 var map;
-var x=document.getElementById("demo");
+var x = document.getElementById("demo");
 function getLocation()
   {
   if (navigator.geolocation)
     {
-    navigator.geolocation.watchPosition(showPosition, undefined ,{enableHighAccuracy: true});
+    navigator.geolocation.getCurrentPosition(showPosition, undefined ,{enableHighAccuracy: true});
     }
-  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  else{x.innerHTML = "Geolocation is not supported by this browser.";}
   }
 function showPosition(position){
   lat = position.coords.latitude;
   lon = position.coords.longitude;
   latlon = new google.maps.LatLng(lat, lon);
   mapholder = document.getElementById('mapholder')
-  mapholder.style.height='100%';
-  mapholder.style.width='100%';
+  mapholder.style.height ='500px';
+  mapholder.style.width ='500px';
 
   var myOptions = {
   center: latlon,zoom:14,
@@ -49,8 +53,7 @@ function showPosition(position){
   navigationControlOptions:{style: google.maps.NavigationControlStyle.SMALL}
   };
   if (map == undefined){
-    joinRoom("hello");
-    map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
+    map = new google.maps.Map(document.getElementById("mapholder"),myOptions);
   }
   updateLocation([lat, lon]);
 }

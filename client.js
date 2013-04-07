@@ -1,6 +1,6 @@
 //hardcode, put on cloud server later
 var markers = {} //dictionary of clint_id keys and [lat, lon] values
-var con = new WebSocket ("ws://10.22.35.70:8080")
+var con = new WebSocket ("ws://10.22.34.169:8080")
 
 
 con.onmessage = function(message){
@@ -49,7 +49,12 @@ function joinRoom(roomId) {
         roomId = makeRoomId();  //creating a new room, they are a host
         host = true;
     }
-
+    var linkcontainer = document.getElementById("linkcontainer");
+    var insert = document.createElement("a");
+    insert.setAttribute("href", "http://10.22.34.169:8000?room_id=" + roomId);
+    insert.innerHTML="http://10.22.34.169:8000?room_id=" + roomId;
+    insert.setAttribute("id", "reflink");
+    linkcontainer.appendChild(insert);
     con.send(JSON.stringify({type: "join", roomId: roomId, host: host}));
 }
 
@@ -68,3 +73,18 @@ function updateLocation(location) {
     con.send(JSON.stringify({type: "location", location: location}))  
 }
 
+function getQueryStrings() { 
+  var assoc  = {};
+  var decode = function (s) { return decodeURIComponent(s.replace(/\+/g, " ")); };
+  var queryString = location.search.substring(1); 
+  var keyValues = queryString.split('&'); 
+
+  for(var i in keyValues) { 
+    var key = keyValues[i].split('=');
+    if (key.length > 1) {
+      assoc[decode(key[0])] = decode(key[1]);
+    }
+  } 
+
+  return assoc; 
+} 
