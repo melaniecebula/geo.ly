@@ -15,7 +15,7 @@ server.on('connection', function(con) {
       joinRoom(message, con);
     }
     else if (message.type =='location') {
-      sendLocation(message, con);
+      sendLocation(stringMessage, con);
     }
     else {
       con.send(JSON.stringify('You fucked up somewhere.'));
@@ -35,12 +35,12 @@ function joinRoom(message, con) {
 }
 
 //Function for broadcasting location to other clients. message includes location
-//and who is the connection that is sending its location.
-function sendLocation(message, who) {
-  for (var i = 0; i < who.room.length; i++) {
-    if (who.room[i]==who) {
+//and con is the connection that is sending its location.
+function sendLocation(message, con) {
+  for (var i = 0; i < con.room.length; i++) {
+    if (con.room[i]==con) {
       continue;
     }
-  who.room[i].send(stringMessage, who);
+  con.room[i].send(message);
   } 
 }

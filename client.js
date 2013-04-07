@@ -2,6 +2,15 @@
 var con = new WebSocket ("ws://10.22.35.212:8080")
 
 
+con.onmessage=function(message, who){
+    var stringMessage= message.data;
+    console.log(message.data);
+    message=JSON.parse(message.data);
+    if(message.type=="location"){
+        console.log(" Latitude: "+message.location[0]+", Longitude: "+message.location[1]);
+    }
+}
+
 function joinRoom(roomId) {
     var host = false;  //joining a room, not a host
     if (roomId == undefined) {
