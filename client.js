@@ -118,20 +118,19 @@ function joinRoom(roomId) {
     var linkcontainer = document.getElementById("linkcontainer");
     linkcontainer.innerHTML += "Send this link to your friends!</br>";
     var insert = document.createElement("a");
-    insert.setAttribute("onClick", "removelinks()");
-    insert.setAttribute("href", "#");
+//    insert.setAttribute("onClick", "removelinks()");
+    insert.setAttribute("href", "http://10.22.34.20:8000?room_id=" + roomId);
     insert.innerHTML = "http://10.22.34.20:8000?room_id=" + roomId;
     insert.setAttribute("id", "reflink");
     linkcontainer.appendChild(insert);
     document.getElementById("mytable").removeChild(document.getElementById("default"));
-    if (document.getElementById("mytable").offsetWidth > 540){
+    if (document.getElementById("mytable").offsetWidth != 540){
         var smalltitle= document.createElement("h1");
         smalltitle.setAttribute("id", "smalltitle");
         smalltitle.innerHTML = "geo.ly";
         smalltitle.style.cssText+= document.getElementById("mytable").offsetHeight+";";
-        document.getElementById("mytable").appendChild(smalltitle);
+        document.body.appendChild(smalltitle);
     }
-    console.log("hello")
     con.send(JSON.stringify({type: "join", roomId: roomId, isHost: isHost}));
 }
 
@@ -140,8 +139,9 @@ function removelinks(){
         var smalltitle= document.createElement("h1");
         smalltitle.setAttribute("id", "smalltitle");
         smalltitle.innerHTML = "geo.ly";
+        document.getElementById("mytable").removeChild("linkcontainer");
         smalltitle.style.cssText+= document.getElementById("mytable").offsetHeight+";";
-        document.getElementById("mytable").appendChild(smalltitle);
+        document.body.appendChild(smalltitle);
     }
 }
 
@@ -157,6 +157,7 @@ function makeRoomId() {
 }
 
 function updateLocation(location) {
+    console.log("Location!")
     con.send(JSON.stringify({type: "location", location: location}))  
     getHeading();
 }
